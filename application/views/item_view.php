@@ -168,20 +168,144 @@
 
 		// Ajax adding data to database
 		$.ajax({
-			
+			url : url,
+			type: "POST",
+			data: $('#form').serialize(),
+			dataType: "JSON",
+			success: function(data) {
+				// if success close modal and reload ajax table
+				if (data.status)  {
+					$('#modal_form').modal('hide');
+					reload_table();
+				} else {
+					for (var i = 0; i < data.inputerror.length; i++) {
+						$('[name="'+data.inputerror[i]+'"]').parent().addClass('has-error');
+						$('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
+					}
+				}
+				$('#btnSave').text('save'); //change button text
+				$('#btnSave').attr('disabled', false); //set button enable
+			},
+
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert('Error adding / update data');
+				$('#btnSave').text('save'); //change button text
+				$('#btnSave').attr('disabled', false); //set button enable
+			}
 		});
 	}
+
+	function delete_person(id) {
+		if(confirm('Are you sure delete this data')) {
+			// ajax delete data to database
+			$.ajax({
+				url : "<?php echo site_url('person/ajax_delete') ?>/"+id,
+				type: "POST",
+				dataType: "JSON",
+				success: function(data) {
+					// if success reload ajax table
+					$('#modal_form').modal('hide');
+					reload_table();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert('Error deleting data');
+				}
+			});
+		}
+	}
   	</script>
+
+  	<!-- Bootstrap modal -->
+  	<div class="modal fade" id="modal_form" role="dialog">
+  		<div class="modal-dialog">
+  			<div class="modal-content">
+  				<div class="modal-header">
+  					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  					<h3 class="modal-title">Item Form</h3>
+  				</div>
+  				<div class="modal-body form">
+  					<form action="" id="form" class="form-horizontal">
+  						<input type="hidden" value="" name="id"/>
+  						<div class="form-body">
+  							<div class="form-group">
+  								<label class="control-label col-md-3">Unit</label>
+  								<div class="col-md-9">
+  									<input name="item_unit" placeholder="Unit" class="form-control" type="text">
+  									<span class="help-block"></span>
+  								</div>
+  							</div>
+  							<div class="form-group">
+  								<label class="control-label col-md-3">Model</label>
+  								<div class="col-md-9">
+  									<input name="item_model" placeholder="Model" class="form-control" type="text">
+  									<span class="help-block"></span>
+  								</div>
+  							</div>
+  							<div class="form-group">
+  								<label class="control-label col-md-3">Condition</label>
+  								<div class="col-md-9">
+  									<input name="item_condition" placeholder="Condition" class="form-control" type="text">
+  									<span class="help-block"></span>
+  								</div>
+  							</div>
+  							<div class="form-group">
+  								<label class="control-label col-md-3">Purchase Price</label>
+  								<div class="col-md-9">
+  									<input name="item_p_price" placeholder="Purchase Price" class="form-control" type="text">
+  									<span class="help-block"></span>
+  								</div>
+  							</div>
+  							<div class="form-group">
+  								<label class="control-label col-md-3">Selling Price</label>
+  								<div class="col-md-9">
+  									<input name="item_s_price" placeholder="Selling Price" class="form-control" type="text">
+  									<span class="help-block"></span>
+  								</div>
+  							</div>
+  							<div class="form-group">
+  								<label class="control-label col-md-3">Sold Price</label>
+  								<div class="col-md-9">
+  									<input name="item_sld_price" placeholder="Sold Price" class="form-control" type="text">
+  									<span class="help-block"></span>
+  								</div>
+  							</div>
+  							<div class="form-group">
+  								<label class="control-label col-md-3">Revenue</label>
+  								<div class="col-md-9">
+  									<input name="item_revenue" placeholder="Revenue" class="form-control" type="text">
+  									<span class="help-block"></span>
+  								</div>
+  							</div>
+  							<div class="form-group">
+  								<label class="control-label col-md-3">Aquired Date</label>
+  								<div class="col-md-9">
+  									<input name="item_a_date" placeholder="Aquired Date" class="form-control datepicker" type="text">
+  									<span class="help-block"></span>
+  								</div>
+  							</div>
+  							<div class="form-group">
+  								<label class="control-label col-md-3">Sold Date</label>
+  								<div class="col-md-9">
+  									<input name="item_s_price" placeholder="Sold Date" class="form-control datepicker" type="text">
+  									<span class="help-block"></span>
+  								</div>
+  							</div>
+  							<div class="form-group">
+  								<label class="control-label col-md-3">Buyer Contact</label>
+  								<div class="col-md-9">
+  									<input name="item_b_contact" placeholder="Buyer Contact" class="form-control" type="text">
+  									<span class="help-block"></span>
+  								</div>
+  							</div>
+  						</div>
+  					</form>
+  				</div>
+  				<div class="modal-footer">
+  					<button type="button" id="btnSave" onclick="save()" class="btn btn-primary">Save</button>
+  					<button type="button" class="btn btn-danger" date-dismiss="modal">Cancel</button>
+  				</div>
+  			</div><!-- /.modal-content -->
+  		</div><!-- /.modal-dialog -->
+  	</div><!-- /.modal -->
   </body>
   </html>
-
-  	$row[] = $item->item_unit;
-  			$row[] = $item->item_model;
-  			$row[] = $item->item_condition;
-  			$row[] = $item->item_p_price;
-  			$row[] = $item->item_s_price;
-  			$row[] = $item->item_sld_price;
-  			$row[] = $item->item_revenue;
-  			$row[] = $item->item_a_date;
-  			$row[] = $item->item_s_date;
-  			$row[] = $item->item_b_contact;
