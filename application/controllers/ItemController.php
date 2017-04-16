@@ -88,25 +88,15 @@ class ItemController extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('itemModel', 'shop_items');
+		$this->load->model('itemModel', 'item');
 	}
 
 	public function index() {
 		$this->load->view('item_view');
 	}
 
-	// 		'item_unit' => $this->input->post('item_unit'),
-	// 		'item_model' => $this->input->post('item_model'),
-	// 		'item_condition' => $this->input->post('item_condition'),
-	// 		'item_p_price' => $this->input->post('item_p_price'),
-	// 		'item_s_price' => $this->input->post('item_s_price'),
-	// 		'item_sld_price' => $this->input->post('item_sld_price'),
-	// 		'item_revenue' => $this->input-post('item_revenue'),
-	// 		'item_a_date' => $this->input->post('item_a_date'),
-	// 		'item_s_date' => $this->input->post('item_s_date'),
-	// 		'item_b_contact' => $this->input->post('item_b_contact')
 	public function item_list() {
-		$list = $this->preson->get_datatables();
+		$list = $this->item->get_datatables();
 		$data = array();
 		$no = $_POST['start'];
 		foreach($list as $item) {
@@ -125,7 +115,7 @@ class ItemController extends CI_Controller {
 
 			// Add html for action
 			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_item('."'".$item->item_no."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Delete" onclick"delete_person('."'".$item->item_no."'".')"<i class="glyphicon glyphicon-trash"></i> Delete</a>';
+				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Delete" onclick"delete_item('."'".$item->item_no."'".')"<i class="glyphicon glyphicon-trash"></i> Delete</a>';
 
 			$data[] = $row;	
 		}
@@ -133,7 +123,7 @@ class ItemController extends CI_Controller {
 		$output = array(
 				"draw" => $_POST['draw'],
 				"recordsTotal" => $this->item->count_all(),
-				"recordsFiltered" => $this->person->count_filtered(),
+				"recordsFiltered" => $this->item->count_filtered(),
 				"data" => $data,
 			);
 		// Outeput to Json format
@@ -164,7 +154,7 @@ class ItemController extends CI_Controller {
 				'item_b_contact' => $this->input->post('item_b_contact'),
 			);
 	
-		$insert = $this->person->save($data);
+		$insert = $this->item->save($data);
 		echo json_encode(array("status" => TRUE));
 	}
 
@@ -182,7 +172,7 @@ class ItemController extends CI_Controller {
 				'item_s_date' => $this->input->post('item_s_date'),
 				'item_b_contact' => $this->input->post('item_b_contact'),
 			);
-		$this->item->update(arary('item_no' => $this->input->post('item_no')), $data);
+		$this->item->update(array('item_no' => $this->input->post('item_no')), $data);
 		echo json_encode(array("status" => TRUE));
 	}
 
@@ -204,3 +194,5 @@ class ItemController extends CI_Controller {
 		}
 	}
 }
+/*TODO*/
+//http://localhost/mycodeigniter/index.php/itemController/item_list

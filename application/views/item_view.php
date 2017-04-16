@@ -25,16 +25,6 @@
   		<br>
   		<br>
   		<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-  			$row[] = $item->item_unit;
-  			$row[] = $item->item_model;
-  			$row[] = $item->item_condition;
-  			$row[] = $item->item_p_price;
-  			$row[] = $item->item_s_price;
-  			$row[] = $item->item_sld_price;
-  			$row[] = $item->item_revenue;
-  			$row[] = $item->item_a_date;
-  			$row[] = $item->item_s_date;
-  			$row[] = $item->item_b_contact;
   			<thead>
   				<tr>
   					<th>Unit</th>
@@ -54,7 +44,7 @@
   			</tbody>
   		</table>
   	</div>
-  	<script src="<?php echo base_url('assets/js/jquery-2.1.4.min.js')?>"></script>
+  	<script src="<?php echo base_url('assets/js/jquery.min.js')?>"></script>
   	<script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>
   	<script src="<?php echo base_url('assets/js/jquery.dataTables.min.js')?>"></script>
   	<script src="<?php echo base_url('assets/js/dataTables.bootstrap.js')?>"></script>
@@ -66,7 +56,7 @@
 
   		$(document).ready(function() {
   			// datatables
-  			table = $('#table').Datatable({
+  			table = $('#table').DataTable({
   				"processing": true, //Feature control the processing indicator.
   				"serverSide": true, //Feature control DataTables' server-side processing mode.
   				"order": [], //Initial no order
