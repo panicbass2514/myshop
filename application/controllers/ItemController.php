@@ -115,7 +115,7 @@ class ItemController extends CI_Controller {
 
 			// Add html for action
 			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_item('."'".$item->item_no."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Delete" onclick"delete_item('."'".$item->item_no."'".')"<i class="glyphicon glyphicon-trash"></i> Delete</a>';
+				      <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Delete" onclick="delete_item('."'".$item->item_no."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
 
 			$data[] = $row;	
 		}
@@ -175,6 +175,11 @@ class ItemController extends CI_Controller {
 		$this->item->update(array('item_no' => $this->input->post('item_no')), $data);
 		echo json_encode(array("status" => TRUE));
 	}
+
+	public function item_delete($id) {
+		$this->item->delete_by_id($id);
+		echo json_encode(array("status" => TRUE));
+	} 
 
 	private function _validate() {
 		$data = array();

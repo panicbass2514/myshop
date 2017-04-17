@@ -105,11 +105,11 @@
 		$('#form')[0].reset();
 		$('.form-group').removeClass('has-error');
 		$('.help-block').empty(); // clear error string
-		$('#modal-form').modal('show'); // show bootstrap modal
+		$('#modal_form').modal('show'); // show bootstrap modal
 		$('.modal-title').text('Add Item'); // Set Title to Bootstrap modal title
 	}
 
-	function edit_item() {
+	function edit_item(id) {
 		save_method = 'update';
 		$('#form')[0].reset(); // reset form on mdals
 		$('.form-group').removeClass('has-error'); // clear error class
@@ -117,7 +117,7 @@
 
 		// Ajax Load data from ajax
 		$.ajax({
-			url: "<?php echo site_url('itemClass/item_edit')?>/" + id,
+			url: "<?php echo site_url('itemController/item_edit')?>/" + id,
 			type: "GET",
 			dataType: "JSON",
 			success: function(data) {
@@ -185,11 +185,11 @@
 		});
 	}
 
-	function delete_person(id) {
+	function delete_item(id) {
 		if(confirm('Are you sure delete this data')) {
 			// ajax delete data to database
 			$.ajax({
-				url : "<?php echo site_url('person/ajax_delete') ?>/"+id,
+				url : "<?php echo site_url('itemController/item_delete') ?>/"+id,
 				type: "POST",
 				dataType: "JSON",
 				success: function(data) {
@@ -292,7 +292,7 @@
   				</div>
   				<div class="modal-footer">
   					<button type="button" id="btnSave" onclick="save()" class="btn btn-primary">Save</button>
-  					<button type="button" class="btn btn-danger" date-dismiss="modal">Cancel</button>
+  					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
   				</div>
   			</div><!-- /.modal-content -->
   		</div><!-- /.modal-dialog -->
